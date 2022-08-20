@@ -1,0 +1,134 @@
+﻿@model u21512338_HW04.Models.Donation
+@{
+    ViewBag.Title = "Donation";
+}
+
+<h2>Make Donation</h2>
+
+@{ var result = "";
+    if (IsPost)
+    {
+        var name = Request["donName"];
+        var surname = Request["donSurname"];
+        var message = Request["donMessage"];
+
+
+        var tempData2 = name + ","
+            + surname + ","
+            + message
+            + Environment.NewLine;
+
+
+        var dataFile = Server.MapPath("~/App_Data/tempData2.txt");
+        File.AppendAllText(@dataFile, tempData2);
+        result = "Information saved.";
+    } }
+
+@using (Html.BeginForm("Donation", "Home", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="donationType">Choose donation type</label>
+        <select class="form-control" id="donationType" name="type">
+            <option value="1">Monetary</option>
+            <option value="2">Food</option>
+            <option value="3">Clothing</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="name">First Name</label>
+        <input type="text" class="form-control" id="name" name="donName">
+    </div>
+    <div class="form-group">
+        <label for="surname">Last Name</label>
+        <input type="text" class="form-control" id="surname" name="donSurname">
+    </div>
+    <div class="form-group">
+        <label for="num">Cellphone Number</label>
+        <input type="number" maxlength="10" class="form-control" name="num" id="num">
+    </div>
+    <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" id="email" name="email">
+    </div>
+    <div class="form-group">
+        <label for="msg">Message</label>
+        <textarea class="form-control" id="msg" name="donMessage" rows="3"></textarea>
+    </div>
+
+    //Fields for money donation
+    <div class="form-group money">
+        <label for="amount">Amount</label>
+        <input type="number" class="form-control" name="amount" id="amount">
+    </div>
+    <div class="form-group money">
+        <label for="cardnum">Card Number</label>
+        <input type="number" maxlength="16" class="form-control" name="cardnum" id="cardnum">
+    </div>
+    <div class="form-group money">
+        <label for="exp">Card Expiray Date</label>
+        <input type="date" class="form-control" name="exp" id="exp">
+    </div>
+    <div class="form-group money">
+        <label for="cvc">CVC</label>
+        <input type="number" maxlength="3" class="form-control" name="cvc" id="cvc">
+    </div>
+    <div class="form-group money">
+        <label for="address">Billing Address</label>
+        <input type="text" class="form-control" id="address" name="address">
+    </div>
+
+    //Fields for food donation
+    <div class="form-group food">
+        <label for="desc">Description</label>
+        <input type="text" class="form-control" id="desc" name="desc" placeholder="e.g. Apples">
+    </div>
+    <div class="form-group food">
+        <label for="qty">Quantity (items, bags, containers, etc.)</label>
+        <input type="number" class="form-control" id="qty" name="qty">
+    </div>
+    <div class="form-group food">
+        <label for="value">Estimated Value of Items (Total)</label>
+        <input type="number" class="form-control" id="value" name="value">
+    </div>
+    <div class="form-group food">
+        <label for="warning">Allergy Warnings</label>
+        <input type="text" class="form-control" id="warning" name="warning" placeholder="e.g. Nuts">
+    </div>
+
+    //Fields for clothing donation
+    <div class="form-group clothing">
+        <label for="cdesc">Description</label>
+        <input type="text" class="form-control" id="cdesc" name="cdesc" placeholder="e.g. Jackets">
+    </div>
+    <div class="form-group clothing">
+        <label for="cqty">Quantity (items, bags, containers, etc.)</label>
+        <input type="number" class="form-control" id="cqty" name="cqty">
+    </div>
+    <div class="form-group clothing">
+        <label for="cvalue">Estimated Value of Items (Total)</label>
+        <input type="number" class="form-control" id="cvalue" name="cvalue">
+    </div>
+    <div class="form-group clothing">
+        <label for="age">Clothing Age Group</label>
+        <input type="text" class="form-control" id="age" name="age" placeholder="e.g. 12-14 years / babies / etc.">
+    </div>
+    <div class="form-group clothing">
+        <label for="quality">Quality</label>
+        <input type="text" class="form-control" id="quality" name="quality" placeholder="e.g. Good / Well-Worn / etc.">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <div>
+        @if (result != "")
+        {
+            <p>Result: @result</p><br>
+        }
+    </div>
+}
+
+@section Scripts {
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Donation/donation.js")" asp-append-version="true"></script>
+
+}

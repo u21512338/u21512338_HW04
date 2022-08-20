@@ -1,0 +1,104 @@
+﻿@model List<u21512338_HW04.Models.Food>
+@{
+    ViewBag.Title = "CurrentDonations";
+}
+
+<h2>List of Donators</h2>
+
+<head>
+    <style type="text/css">
+        .auto-style {
+            color: #FFFFFF;
+        }
+
+        .t {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+    </style>
+</head>
+
+@{ var result = "";
+    Array tempData2 = null;
+    char[] delimiterChar = { ',' };
+
+    var dataFile = Server.MapPath("~/App_Data/tempData2.txt");
+
+    if (File.Exists(dataFile))
+    {
+        tempData2 = File.ReadAllLines(dataFile);
+        if (tempData2 == null)
+        {
+            // Empty file.
+            result = "The file is empty.";
+        }
+    }
+    else
+    {
+        // File does not exist.
+        result = "The file does not exist.";
+    } }
+
+<body style="background-image: url('https://i.pinimg.com/originals/d8/c4/9b/d8c49bdc7ac1bbd74182ac76b8049943.jpg'); background-repeat: no-repeat; background-size: cover ">
+    <div class="well-sm">
+        <div>
+            @result
+            @if (result == "")
+            {
+                <div style="height: 400px; overflow: auto;">
+                    <table class="table table-condensed table-hover table-responsive" id="table">
+                        <thead style="position: sticky;top: 0">
+                            <tr bgcolor="#222222" class="auto-style">
+                                <th class="t">Name</th>
+                                <th class="t">Surname</th>
+                                <th class="t">Message</th>
+                                <th class="t">Delete Entry</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (string dataLine in tempData2)
+                            {
+                                <tr>
+                                    @foreach (string dataItem in dataLine.Split(delimiterChar))
+                                    {
+                                        <td class="t">@dataItem</td>
+
+                                    }
+                                    <td class="t"><a class="btn btn-danger removeLink" onclick="ready(this)" id="delete">Remove</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            <img src="https://cdn3.iconfinder.com/data/icons/crowdfunding-4/64/x-32-512.png" class="center" />
+        </div>
+    </div>
+</body>
+
+    <script>
+        function ready() {
+            //get element using class name
+            var removeRow = document.getElementsByClassName('removeLink')
+            //iterate through number of displayed remove buttons
+            for (var i = 0; i < removeRow.length; i++) {
+                //gets index of the one clicked and adds event listener and uses function to delete row
+                var button = removeRow[i]
+                button.addEventListener('click', removeDonation)
+            }
+        }
+
+        function removeDonation(event) {
+            //targets specific button clicked
+            var buttonClicked = event.target
+            //removes table row of item clicked
+            buttonClicked.closest('tr').remove();
+
+        }
+    </script>

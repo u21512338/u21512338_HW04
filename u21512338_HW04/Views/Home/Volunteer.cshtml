@@ -1,0 +1,68 @@
+﻿@model u21512338_HW04.Models.Volunteer
+@{
+    ViewBag.Title = "Volunteer";
+}
+
+<h2>Volunteer</h2>
+
+@{ var result = "";
+    if (IsPost)
+    {
+        var name = Request["volName"];
+        var surname = Request["volSurname"];
+        var number = Request["volNumber"];
+        var email = Request["volEmail"];
+
+        var tempData = name + ","
+            + surname + ","
+            + number + ","
+            + email
+            + Environment.NewLine;
+
+
+        var dataFile = Server.MapPath("~/App_Data/tempData.txt");
+        File.AppendAllText(@dataFile, tempData);
+        result = "Information saved.";
+    } }
+
+<div class="well-sm">
+    <form id="form1" method="post">
+        <div>
+            <table>
+                <tr>
+                    <td><p>&nbsp;Name:&nbsp;</p></td>
+                    <td><p><input id="name" name="volName" type="text" /></p></td>
+                </tr>
+
+                <tr>
+                    <td><p>&nbsp;Surname:&nbsp;</p></td>
+                    <td><p><input id="surname" name="volSurname" type="text" /></p></td>
+                </tr>
+
+                <tr>
+                    <td><p>&nbsp;Number:&nbsp;</p></td>
+                    <td><p><input id="number" name="volNumber" type="text" /></p></td>
+                </tr>
+
+                <tr>
+                    <td><p>&nbsp;Email:&nbsp;</p></td>
+                    <td><p><input id="email" name="volEmail" type="text" /></p></td>
+                </tr>                
+
+                <tr>
+                    <td><p>&nbsp;</p></td>
+                    <td><p><input type="submit" value="Submit" /></p></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            @if (result != "")
+            {
+                <p>Result: @result</p><br>
+            }
+        </div>
+    </form>
+</div>
+
+
+
